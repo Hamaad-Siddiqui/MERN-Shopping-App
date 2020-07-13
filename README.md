@@ -1,8 +1,7 @@
-Bassic Login App made with **MERN** Stack.
-Feel free to have a look [Deloyed](https://login-app.web.app) &
+Basic Login App made with **MERN** Stack.
 [link to Backend](https://github.com/Hamaad-Siddiqui/REST)
 
-_Development Details:_
+Development Details:
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
