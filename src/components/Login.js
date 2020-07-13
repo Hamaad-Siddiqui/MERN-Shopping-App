@@ -146,7 +146,7 @@ export default class Login extends Component {
                   Remember me
                 </label>
                 <Link to="/forgetPass">
-                  <a className="link">Forgot Password</a>
+                  <a href='#' className="link">Forgot Password</a>
                 </Link>
               </div>
 
