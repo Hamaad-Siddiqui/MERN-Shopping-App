@@ -1,29 +1,39 @@
-import { ReactComponent as BellIcon } from "./icons/bell.svg";
-import { ReactComponent as MessengerIcon } from "./icons/messenger.svg";
-import { ReactComponent as CaretIcon } from "./icons/caret.svg";
-import { ReactComponent as PlusIcon } from "./icons/plus.svg";
-import { ReactComponent as CogIcon } from "./icons/cog.svg";
-import { ReactComponent as ChevronIcon } from "./icons/chevron.svg";
-import { ReactComponent as ArrowIcon } from "./icons/arrow.svg";
-import { ReactComponent as BoltIcon } from "./icons/bolt.svg";
-import { ReactComponent as LogoutIcon } from "./icons/logout.svg";
-import { ReactComponent as UserIcon } from "./icons/user.svg";
+import { ReactComponent as BellIcon } from "../../assets/icons/bell.svg";
+import { ReactComponent as MessengerIcon } from "../../assets/icons/messenger.svg";
+import { ReactComponent as CaretIcon } from "../../assets/icons/caret.svg";
+import { ReactComponent as PlusIcon } from "../../assets/icons/plus.svg";
+import { ReactComponent as CogIcon } from "../../assets/icons/cog.svg";
+import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
+import { ReactComponent as ArrowIcon } from "../../assets/icons/arrow.svg";
+import { ReactComponent as BoltIcon } from "../../assets/icons/bolt.svg";
+import { ReactComponent as LogoutIcon } from "../../assets/icons/logout.svg";
+import { ReactComponent as UserIcon } from "../../assets/icons/user.svg";
 
 import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
-import { Link } from "react-router-dom";
+import { showPopup } from "../../redux/actions/popup";
+import { useDispatch } from "react-redux";
+
+import "../../style/css/Navbar.css";
+
 const Logout = () => {
-  let local = localStorage.getItem("token");
-  if (local) {
-    localStorage.removeItem("token");
-  } else {
-    sessionStorage.removeItem("token");
-  }
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  window.location.reload();
 };
 function TheNav() {
+  const dispatch = useDispatch();
   return (
     <Navbar>
-      <NavItem icon={<PlusIcon />} />
+      <NavItem
+        icon={
+          <PlusIcon
+            onClick={() => {
+              dispatch(showPopup());
+            }}
+          />
+        }
+      />
       <NavItem icon={<BellIcon />} />
       <NavItem icon={<MessengerIcon />} />
       <NavItem icon={<CaretIcon />}>
@@ -55,7 +65,7 @@ function NavItem(props) {
   );
 }
 
-function DropdownMenu() {
+function DropdownMenu(props) {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(null);
   const dropdownRef = useRef(null);
@@ -84,7 +94,7 @@ function DropdownMenu() {
   }
   function DropdownLogout(props) {
     return (
-      <a href="#" className="menu-item" onClick={Logout}>
+      <a href="#" className="menu-item" onClick={() => Logout(props.stateOrig)}>
         <span className="icon-button">{props.leftIcon}</span>
         {props.children}
         <span className="icon-right">{props.rightIcon}</span>
@@ -116,9 +126,7 @@ function DropdownMenu() {
           >
             Animals
           </DropdownItem>
-          <Link to="/login">
-            <DropdownLogout leftIcon={<LogoutIcon />}>Logout</DropdownLogout>
-          </Link>
+          <DropdownLogout leftIcon={<LogoutIcon />}>Logout</DropdownLogout>
         </div>
       </CSSTransition>
 
@@ -133,10 +141,8 @@ function DropdownMenu() {
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
             <h2>Settings</h2>
           </DropdownItem>
-          <DropdownItem leftIcon={<BoltIcon />}>Account</DropdownItem>
-          <DropdownItem leftIcon={<BoltIcon />}>Something</DropdownItem>
-          <DropdownItem leftIcon={<BoltIcon />}>Something2</DropdownItem>
-          <DropdownItem leftIcon={<BoltIcon />}>Logout</DropdownItem>
+          <DropdownItem leftIcon={<BoltIcon />}>Settings</DropdownItem>
+          <DropdownItem leftIcon={<BoltIcon />}>About</DropdownItem>
         </div>
       </CSSTransition>
 

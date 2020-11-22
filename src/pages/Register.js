@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { BASE_API_URL } from "../utils/constants";
 import axios from "axios";
+import "../style/css/Form.css";
 
 // Check For Email Validation
 const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
@@ -43,7 +45,6 @@ class Register extends Component {
       },
     };
   }
-
   // Check Box Validation
   onClick = (e) => {
     this.setState({ checkbox: !e.target.checked });
@@ -52,8 +53,7 @@ class Register extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     if (formValid(this.state)) {
-      this.setState({ error: null });
-      this.setState({ loader: true });
+      this.setState({ error: null, loader: true });
       // -----------------------------------------
       let body = {
         name: this.state.userName,
@@ -61,30 +61,15 @@ class Register extends Component {
         password: this.state.password,
       };
       try {
-        let res = await axios.post(
-          "https://zsp1d3r.herokuapp.com/api/user/register",
-          body
-        );
-        console.log(res.data);
-        sessionStorage.setItem("token", JSON.stringify(res.data));
-        this.setState({ redirect: "/" });
+        await axios.post(`${BASE_API_URL}/user/register`, body);
+        localStorage.setItem("NewUser", true);
+        this.setState({ redirect: "/login" });
       } catch (err) {
-        console.log(err.response.data);
-        this.setState({ error: err.response.data });
-        this.setState({ loader: false });
+        this.setState({ error: err.response.data, loader: false });
       }
-      // -----------------------------------------
-      console.log(`
-      ---Submitting---
-      Username: ${this.state.userName}
-      Email: ${this.state.email}
-      Password: ${this.state.password}
-      `);
-    } else {
-      console.log("Error - Please Check Form There Is Something InValid");
     }
   };
-
+  // Handling Changes in Form
   handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -106,20 +91,17 @@ class Register extends Component {
       default:
         break;
     }
-    this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+    this.setState({ formErrors, [name]: value });
   };
 
-  // Local Validation End
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { formErrors } = this.state;
     let local = localStorage.getItem("token");
     let session = sessionStorage.getItem("token");
-    if (local || session) {
-      return <Redirect to="/" />;
-    } else {
+    if (!local || !session) {
+      const { formErrors } = this.state;
       return (
         <div className="body">
           <div className="container">
@@ -203,13 +185,15 @@ class Register extends Component {
               <span className="heading">Create An Account</span>
               <img
                 className="image"
-                src={require("./images/register.svg")}
+                src={require("../assets/images/register.svg")}
                 alt=""
               ></img>
             </div>
           </div>
         </div>
       );
+    } else {
+      return <Redirect to="/login" />;
     }
   }
 }

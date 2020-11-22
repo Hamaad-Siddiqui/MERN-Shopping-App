@@ -1,0 +1,9 @@
+.home {
+  font-family: roboto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.greeting {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
