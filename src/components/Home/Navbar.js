@@ -57,8 +57,7 @@ function Navbar(props) {
           <li className={"name"}> {props.name}</li>
         ) : (
           <li className={"name"}>
-            <Link to="/login">Login </Link>
-            <Link to="/signup"> Register</Link>
+            <Link to="/login">Login </Link>/<Link to="/signup"> Register</Link>
           </li>
         )}
         {props.children}
