@@ -1,4 +1,4 @@
-Basic Login App made with **MERN** Stack.
+Buy & Sell made with **MERN** Stack.
 [link to Backend](https://github.com/Hamaad-Siddiqui/REST)
 
 Development Details:
