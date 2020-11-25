@@ -8,8 +8,7 @@ export default function Image(props) {
   const [disabled, setDisabled] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [responseMsg, setResponseMsg] = useState(null);
-  
-  
+
   useEffect(() => {
     setErrorMsg(props.errorMsg);
     setDisabled(false);
@@ -20,10 +19,10 @@ export default function Image(props) {
   }, [props.responseMsg]);
 
   // Reloading After Success
-  if (responseMsg){
+  if (responseMsg) {
     setTimeout(() => {
       window.location.reload();
-      }, 500);
+    }, 500);
   }
 
   // Process
@@ -35,8 +34,8 @@ export default function Image(props) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (photo) props.onSuccess(photo); 
-    setDisabled(true)
+    if (photo) props.onSuccess(photo);
+    setDisabled(true);
   };
 
   return (
@@ -72,30 +71,27 @@ export default function Image(props) {
               <Button
                 variant="primary"
                 type="submit"
-                className={`${!photo || disabled ? "btn-disabled" : "submit-btn"}`}
+                className={`${
+                  !photo || disabled ? "btn-disabled" : "submit-btn"
+                }`}
                 disabled={!photo || disabled ? true : false}
               >
                 <span>Upload</span>
               </Button>
             </div>
-            {
-            errorMsg && errorMsg.upload_error ? (
+            {errorMsg && errorMsg.upload_error ? (
               <div className="hint" style={{ color: "red" }}>
                 {errorMsg.upload_error}
               </div>
-        
+            ) : props.isSubmitted && responseMsg ? (
+              <div className="hint" style={{ color: "green" }}>
+                {responseMsg}
+              </div>
             ) : (
-              props.isSubmitted && responseMsg ? (
-                <div className="hint" style={{ color: "green" }}>
-                  {responseMsg}
+              props.isSubmitted && (
+                <div className="hint" style={{ color: "orange" }}>
+                  Uploading...
                 </div>
-              ):
-              (
-                props.isSubmitted &&  (
-                  <div className="hint" style={{ color: "orange" }}>
-                    Uploading...
-                  </div>
-                )
               )
             )}
             <ul className="list"></ul>

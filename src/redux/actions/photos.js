@@ -27,11 +27,10 @@ export const beginAddPhoto = (data) => {
           "Content-Type": "multipart/form-data",
           "auth-token": JWT,
           // "details-post": JSON.stringify(Data),
-        }, 
+        },
       });
       // console.log(res.data)
       res && dispatch(getResponse(res.data));
-
     } catch (error) {
       console.log(error);
       error.response && dispatch(getErrors(error.response.data));

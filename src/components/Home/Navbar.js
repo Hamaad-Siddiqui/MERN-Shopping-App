@@ -10,6 +10,7 @@ import { ReactComponent as LogoutIcon } from "../../assets/icons/logout.svg";
 import { ReactComponent as UserIcon } from "../../assets/icons/user.svg";
 
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { showPopup } from "../../redux/actions/popup";
 import { useDispatch } from "react-redux";
@@ -21,23 +22,28 @@ const Logout = () => {
   sessionStorage.removeItem("token");
   window.location.reload();
 };
-function TheNav() {
+
+function TheNav(props) {
   const dispatch = useDispatch();
   return (
-    <Navbar>
-      <NavItem
-        icon={
-          <PlusIcon
-            onClick={() => {
-              dispatch(showPopup());
-            }}
-          />
-        }
-      />
-      <NavItem icon={<BellIcon />} />
-      <NavItem icon={<MessengerIcon />} />
+    <Navbar name={props.name}>
+      {props.name ? (
+        <NavItem
+          icon={
+            <PlusIcon
+              onClick={() => {
+                dispatch(showPopup());
+              }}
+            />
+          }
+        />
+      ) : (
+        ""
+      )}
+      {props.name ? <NavItem icon={<BellIcon />} /> : ""}
+      {props.name ? <NavItem icon={<MessengerIcon />} /> : ""}
       <NavItem icon={<CaretIcon />}>
-        <DropdownMenu></DropdownMenu>
+        <DropdownMenu name={props.name}></DropdownMenu>
       </NavItem>
     </Navbar>
   );
@@ -46,11 +52,20 @@ function TheNav() {
 function Navbar(props) {
   return (
     <nav className="navbar">
-      <ul className="navbar-nav">{props.children}</ul>
+      <ul className="navbar-nav">
+        {props.name ? (
+          <li className={"name"}> {props.name}</li>
+        ) : (
+          <li className={"name"}>
+            <Link to="/login">Login </Link>
+            <Link to="/signup"> Register</Link>
+          </li>
+        )}
+        {props.children}
+      </ul>
     </nav>
   );
 }
-
 function NavItem(props) {
   const [open, setOpen] = useState(false);
 
@@ -69,7 +84,8 @@ function DropdownMenu(props) {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(null);
   const dropdownRef = useRef(null);
-
+  // const [allowed, setAllowed] = useState(false);
+  // if (props.name != null) setAllowed(true);
   useEffect(() => {
     setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
   }, []);
@@ -111,7 +127,9 @@ function DropdownMenu(props) {
         onEnter={calcHeight}
       >
         <div className="menu">
-          <DropdownItem leftIcon={<UserIcon />}>My Profile</DropdownItem>
+          <DropdownItem leftIcon={<UserIcon />}>
+            {props.name ? "My Profile" : "Guest"}
+          </DropdownItem>
           <DropdownItem
             leftIcon={<CogIcon />}
             rightIcon={<ChevronIcon />}
@@ -126,7 +144,11 @@ function DropdownMenu(props) {
           >
             Animals
           </DropdownItem>
-          <DropdownLogout leftIcon={<LogoutIcon />}>Logout</DropdownLogout>
+          {props.name ? (
+            <DropdownLogout leftIcon={<LogoutIcon />}>Logout</DropdownLogout>
+          ) : (
+            ""
+          )}
         </div>
       </CSSTransition>
 

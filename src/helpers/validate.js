@@ -2,10 +2,8 @@ import axios from "axios";
 import { BASE_API_URL } from "../utils/constants";
 
 let JWT;
-
 // Process
 export default async (valid, failed, network) => {
-
   let local = localStorage.getItem("token");
   let session = sessionStorage.getItem("token");
   if (local) {
@@ -21,12 +19,12 @@ export default async (valid, failed, network) => {
         headers: { "auth-token": JWT },
       });
       if (res.status === 200) {
-        valid();
+        valid(res.data);
       } else {
         failed();
         local
-        ? localStorage.removeItem("token")
-        : sessionStorage.removeItem("token");
+          ? localStorage.removeItem("token")
+          : sessionStorage.removeItem("token");
       }
     } catch (err) {
       if (err.message === "Network Error") {

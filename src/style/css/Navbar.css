@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 /* Navbar */
 body {
   margin: 0;
@@ -34,6 +35,17 @@ a {
   background-color: var(--bg);
   padding: 0 1rem;
   border-bottom: var(--border);
+  font-family: "Poppins", sans-serif;
+}
+/* name */
+.name {
+  padding-top: 15px;
+  padding-right: 15px;
+  color: rgba(241, 233, 233, 0.952);
+  font-size: 18px;
+}
+.name a:hover {
+  color: #5cc3dd;
 }
 
 /* <ul> */

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import validate from "../helpers/validate";
 import Gallery from "../components/Home/Gallery";
@@ -10,24 +9,24 @@ import Alert from "../components/Other/Alert";
 
 import "../style/css/Home.css";
 
-
 function Home() {
   const [state, setState] = useState({
     processFinished: false,
     networkError: false,
     userAllowed: false,
+    data: null,
   });
 
   // Checking if User is Allowed
   useEffect(() => {
-
     async function fetchData() {
       validate(
-        () => {
+        (data) => {
           setState({
             ...state,
             userAllowed: true,
             processFinished: true,
+            data: data,
           });
         },
         () => {
@@ -40,18 +39,22 @@ function Home() {
     }
     fetchData();
   }, []);
+
   const popup = useSelector((state) => state.popup);
-  if (state.userAllowed && state.processFinished) {
+  if (state.processFinished) {
     return (
       <div className="home">
-        <TheNav />
-        {/* <h1 className="greeting">Welcome {this.state.userInfo.name}</h1> */}
+        {state.data ? (
+          <TheNav name={state.data.name} />
+        ) : (
+          <TheNav name={null} />
+        )}
         {popup ? <Upload /> : null}
         <Gallery />
       </div>
     );
-  } else if (!state.userAllowed && state.processFinished) {
-    return <Redirect to="/login" />;
+    // } else if (!state.userAllowed && state.processFinished) {
+    //   return <Redirect to="/login" />;
   } else {
     return (
       // Show Loading Bar

@@ -155,8 +155,8 @@ export default class Login extends Component {
                   <label className="label" htmlFor="remember">
                     Remember me
                   </label>
-                  <Link to="/forgetPass">
-                    <a className="link">Forgot Password</a>
+                  <Link className="link" to="/forgetPass">
+                    Forgot Password
                   </Link>
                 </div>
 
@@ -167,8 +167,8 @@ export default class Login extends Component {
                 <button className="btn">Log In</button>
                 <small className="small">
                   Don't have an account?{" "}
-                  <Link to="/signup">
-                    <span className="link">Sign up</span>
+                  <Link className="link" to="/signup">
+                    Sign up
                   </Link>
                 </small>
               </form>

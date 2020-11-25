@@ -100,7 +100,7 @@ class Register extends Component {
     }
     let local = localStorage.getItem("token");
     let session = sessionStorage.getItem("token");
-    if (!local || !session) {
+    if (!local && !session) {
       const { formErrors } = this.state;
       return (
         <div className="body">
